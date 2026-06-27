@@ -1,0 +1,587 @@
+.rig {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  border: 1px solid var(--line-2);
+  background: var(--line-2); /* shows through the 1px gap as a divider */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
+/* two-pane on desktop: stationary instrument | scrolling conversation */
+@media (min-width: 880px) {
+  .rig {
+    grid-template-columns: minmax(320px, 380px) 1fr;
+    align-items: start;
+  }
+  .rig__panel {
+    position: sticky;
+    top: 1rem;
+  }
+}
+
+.rig__panel {
+  background: var(--panel-2);
+  align-self: start;
+}
+
+/* ============================== CRT ============================== */
+.rig__crt {
+  position: relative;
+  height: clamp(150px, 22vw, 200px);
+  border-bottom: 1px solid var(--line-2);
+  background: radial-gradient(130% 120% at 50% 30%, #0a1618 0%, #060d0e 70%, #050a0b 100%);
+  overflow: hidden;
+}
+.rig__crt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 70px 12px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 1px rgba(70, 232, 176, 0.05);
+  z-index: 2;
+}
+.rig__trace {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.rig__crt-tl,
+.rig__crt-br {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+}
+.rig__crt-tl {
+  top: 0.65rem;
+  left: 0.7rem;
+}
+.rig__crt-br {
+  right: 0.7rem;
+  bottom: 0.65rem;
+  align-items: center;
+  padding: 0.26rem 0.46rem;
+  background: rgba(4, 8, 9, 0.62);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(2px);
+}
+.rig__chip {
+  color: var(--muted);
+  border: 1px solid var(--line-2);
+  padding: 0.14rem 0.38rem;
+  background: rgba(5, 10, 11, 0.5);
+}
+.rig__chip--id {
+  color: #04110d;
+  background: var(--trace);
+  border-color: var(--trace);
+  font-weight: 600;
+}
+.rig__signal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--ok);
+}
+.rig__signal.is-warn {
+  color: var(--warn);
+}
+.rig__signal.is-alarm {
+  color: var(--alarm);
+}
+.rig__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+  animation: rig-pulse 1.6s ease-in-out infinite;
+}
+@keyframes rig-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+.rig__t {
+  color: var(--ink-bright);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  border-left: 1px solid var(--line-2);
+  padding-left: 0.5rem;
+}
+
+/* ============================== deck ============================ */
+.rig__deck {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.2rem 1.1rem 1.35rem;
+}
+.rig__field {
+  display: block;
+}
+.rig__label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.rig__label em {
+  font-style: normal;
+  letter-spacing: 0.05em;
+  color: var(--faint);
+  text-transform: none;
+}
+.rig__readout {
+  margin-left: auto;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  color: var(--trace);
+  font-variant-numeric: tabular-nums;
+}
+
+/* segmented controls (specimen + era) */
+.rig__seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  margin-top: 0.55rem;
+  border: 1px solid var(--line-2);
+  background: var(--line-2);
+}
+.rig__seg-btn {
+  appearance: none;
+  border: none;
+  background: var(--panel);
+  padding: 0.5rem 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.12s, background 0.12s;
+}
+.rig__seg-btn:hover {
+  color: var(--ink-bright);
+  background: rgba(70, 232, 176, 0.05);
+}
+.rig__seg-btn.is-on {
+  color: #04110d;
+  background: var(--trace);
+  font-weight: 600;
+}
+/* locked specimen: redacted, not selectable until explored open */
+.rig__seg-btn.is-locked {
+  color: var(--faint);
+  cursor: not-allowed;
+  letter-spacing: 0.18em;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--panel) 0 6px,
+    rgba(255, 255, 255, 0.022) 6px 12px
+  );
+}
+.rig__seg-btn.is-locked:hover {
+  color: var(--faint);
+  background: repeating-linear-gradient(
+    45deg,
+    var(--panel) 0 6px,
+    rgba(255, 255, 255, 0.022) 6px 12px
+  );
+}
+/* "N/M recovered" count, pushed to the right of the Specimen label */
+.rig__count {
+  margin-left: auto;
+  font-weight: 600;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+/* specimen list: even 2-up grid, last odd item spans full width (no empty cell) */
+.rig__seg--specimen {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.rig__seg--specimen .rig__seg-btn {
+  text-align: left;
+}
+.rig__seg--specimen .rig__seg-btn:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.rig__seg--era {
+  width: 100%;
+}
+.rig__seg--era .rig__seg-btn {
+  flex: 1;
+  padding: 0.66rem 1rem;
+  font-size: 0.9rem;
+}
+
+/* temperature slider */
+.rig__field--temp input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  margin: 0.7rem 0 0;
+  height: 1.2rem;
+  background: transparent;
+  cursor: pointer;
+}
+.rig__field--temp input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  background: linear-gradient(90deg, var(--ok), var(--warn), var(--alarm));
+  opacity: 0.6;
+}
+.rig__field--temp input[type="range"]::-moz-range-track {
+  height: 4px;
+  background: linear-gradient(90deg, var(--ok), var(--warn), var(--alarm));
+  opacity: 0.6;
+}
+.rig__field--temp input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -8px;
+  width: 6px;
+  height: 20px;
+  background: var(--ink-bright);
+  border: 1px solid #04110d;
+  box-shadow: 0 0 10px rgba(70, 232, 176, 0.5);
+}
+.rig__field--temp input[type="range"]::-moz-range-thumb {
+  width: 6px;
+  height: 20px;
+  border-radius: 0;
+  background: var(--ink-bright);
+  border: 1px solid #04110d;
+  box-shadow: 0 0 10px rgba(70, 232, 176, 0.5);
+}
+.rig__field--temp input[type="range"]:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--trace);
+  outline-offset: 2px;
+}
+.rig__field--temp input[type="range"]:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--trace);
+  outline-offset: 2px;
+}
+.rig__ticks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.45rem;
+  font-size: 0.68rem;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.rig__ticks i {
+  font-style: normal;
+  transition: color 0.12s;
+}
+.rig__ticks i.is-on {
+  color: var(--ink-bright);
+}
+
+/* ========================== conversation ======================= */
+.rig__convo {
+  background: var(--panel);
+  padding: 0;
+}
+.rig__convo-head {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0.85rem 1.4rem;
+  border-bottom: 1px solid var(--line-2);
+  background: rgba(8, 11, 12, 0.92);
+  backdrop-filter: blur(6px);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+/* the specimen photo stacks ABOVE the t = .. / signal readout */
+.rig__specimen {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+/* the specimen's face, mounted in the CRT and degrading with the signal */
+.rig__mug {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.7rem;
+  z-index: 3;
+  display: block;
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border: 1px solid var(--line-2);
+  border-radius: 3px;
+  background: #04110d;
+}
+.rig__mug img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* `filter` is set inline from the temperature (chaos): crisp at t=0, smeared as it climbs */
+  transition: filter 0.18s ease;
+}
+/* scanlines + TV-static noise; opacity is driven inline by the slider for "loses signal" */
+.rig__mug-static {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.28) 0 1px, transparent 1px 3px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: auto, 120px 120px;
+  transition: opacity 0.18s ease;
+}
+.rig__convo-id {
+  color: var(--muted);
+}
+.rig__convo-head .rig__signal {
+  font-size: 0.68rem;
+}
+
+/* ============================ summon ============================ */
+.rig__summon {
+  padding: 1.1rem 1.4rem 1.2rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel-2);
+}
+.rig__summon-label {
+  display: block;
+  margin-bottom: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.rig__summon-row {
+  display: flex;
+  gap: 0.5rem;
+}
+.rig__summon-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.55rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--ink-bright);
+  background: var(--panel);
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+}
+.rig__summon-input::placeholder {
+  color: var(--faint);
+}
+.rig__summon-input:focus-visible {
+  outline: none;
+  border-color: var(--trace);
+}
+.rig__summon-btn {
+  flex: none;
+  padding: 0.55rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--panel);
+  background: var(--trace);
+  border: 1px solid var(--trace);
+  border-radius: 2px;
+  cursor: pointer;
+}
+.rig__summon-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.rig__summon-msg {
+  margin: 0.7rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+.rig__summon-msg.is-heard {
+  color: var(--ok);
+}
+.rig__summon-msg.is-lost {
+  color: var(--warn);
+}
+.rig__summon-msg em {
+  color: var(--ink-bright);
+  font-style: italic;
+}
+
+.rig__exchanges {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+/* the exchange a summoned question routed to, briefly */
+.rig__xchg.is-summoned {
+  animation: rig-summon 2.6s ease-out;
+}
+@keyframes rig-summon {
+  0%,
+  18% {
+    background: color-mix(in srgb, var(--trace) 16%, transparent);
+    box-shadow: inset 3px 0 0 var(--trace);
+  }
+  100% {
+    background: transparent;
+    box-shadow: inset 3px 0 0 transparent;
+  }
+}
+.rig__xchg {
+  padding: 1.4rem 1.4rem 1.6rem;
+  border-bottom: 1px solid var(--line);
+}
+.rig__xchg:last-child {
+  border-bottom: none;
+}
+.rig__q {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  gap: 0.7rem;
+  margin: 0 0 0.9rem;
+  padding: 0.7rem 0 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--muted);
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+.rig__q > span:last-child {
+  max-width: 62ch;
+}
+.rig__q-n {
+  flex: none;
+  color: var(--trace);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+/* the answer as a slight speech bubble: faint signal-tinted fill, soft corners,
+   a small tail pointing up at the question it replies to */
+.rig__a {
+  position: relative;
+  margin: 0;
+  max-width: 62ch;
+  padding: 0.9rem 1.15rem;
+  border: 1px solid var(--line-2);
+  border-left: 2px solid var(--ok);
+  border-radius: 4px 13px 13px 13px;
+  background: rgba(70, 232, 176, 0.035);
+}
+.rig__a::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 18px;
+  width: 11px;
+  height: 11px;
+  background: inherit;
+  border-top: 1px solid var(--line-2);
+  border-left: 1px solid var(--line-2);
+  transform: rotate(45deg);
+}
+.rig__a.is-warn {
+  border-left-color: var(--warn);
+  background: rgba(245, 177, 58, 0.045);
+}
+.rig__a.is-alarm {
+  border-left-color: var(--alarm);
+  background: rgba(255, 91, 82, 0.05);
+}
+.rig__voice {
+  margin: 0;
+  font-family: var(--font-voice);
+  font-size: clamp(1.1rem, 1.6vw, 1.32rem);
+  line-height: 1.5;
+  color: var(--voice);
+  text-wrap: pretty;
+}
+.rig__voice + .rig__voice {
+  margin-top: 0.65em;
+}
+.rig__a.is-alarm .rig__voice {
+  color: #f3d9d7;
+}
+
+/* inline footnote reference — the small superscript after a claim */
+.rig__ref {
+  font-family: var(--font-mono);
+  font-size: 0.62em;
+  font-weight: 600;
+  color: var(--trace);
+  padding: 0 0.05em 0 0.12em;
+  line-height: 0;
+}
+.rig__ref.is-orphan {
+  color: var(--muted);
+}
+
+/* the footnote apparatus, set apart below the voice */
+.rig__fn {
+  margin: 1.1rem 0 0;
+  padding: 0.85rem 0 0;
+  border-top: 1px solid var(--line-2);
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+.rig__fn-item {
+  display: flex;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.rig__fn-item em {
+  color: var(--ink);
+  font-style: italic;
+}
+.rig__fn-n {
+  flex: none;
+  min-width: 1.1em;
+  color: var(--trace);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================== note ============================ */
+.rig__note {
+  margin: 0;
+  padding: 1.1rem 1.4rem 1.3rem;
+  border-top: 1px solid var(--line-2);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--muted);
+}

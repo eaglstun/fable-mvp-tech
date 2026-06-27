@@ -1,0 +1,87 @@
+:root {
+  /* Cold Apparatus — a lab instrument trained on dead minds */
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-voice: "Newsreader", Georgia, "Times New Roman", serif;
+
+  /* housing */
+  --panel: #080b0c;
+  --panel-2: #0c1113;
+  --panel-3: #0f181a;
+  --line: #15272d;
+  --line-2: #1d3942;
+
+  /* graticule / phosphor */
+  --graticule: #102a31;
+  --trace: #46e8b0;
+  --trace-dim: rgba(70, 232, 176, 0.32);
+
+  /* type */
+  --ink: #c4d2d3;
+  --ink-bright: #eef6f4;
+  --muted: #61787d;
+  --faint: #38494d;
+  --voice: #e8f0ee;
+
+  /* signal coherence states (color encodes truth, not decoration) */
+  --ok: #46e8b0;
+  --warn: #f5b13a;
+  --alarm: #ff5b52;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(120% 80% at 50% -10%, #0c1416 0%, var(--panel) 60%) fixed;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* faint scanlines over the whole housing — the CRT we're all trapped behind */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.16) 3px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+a {
+  color: var(--trace);
+  text-underline-offset: 2px;
+}
+
+::selection {
+  background: rgba(70, 232, 176, 0.22);
+  color: var(--ink-bright);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

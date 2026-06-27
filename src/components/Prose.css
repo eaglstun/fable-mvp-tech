@@ -1,0 +1,48 @@
+/* Block-level Markdown the specimens emit, styled to sit inside the transcript.
+   Base prose (.rig__voice, .rig__fn, .rig__ref) lives in SeancePlayground.css. */
+
+/* a heading the model emitted (## ...) — kept quiet, instrument-label register */
+.rig__h {
+  margin: 1.15em 0 0.35em;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.rig__h:first-child {
+  margin-top: 0;
+}
+
+/* **strong** inside the serif voice */
+.rig__a strong {
+  color: var(--ink-bright);
+  font-weight: 600;
+}
+
+/* bullet / numbered lists */
+.rig__list {
+  margin: 0.55em 0 0;
+  padding-left: 1.2em;
+}
+.rig__list li {
+  font-family: var(--font-voice);
+  font-size: clamp(1.04rem, 1.5vw, 1.22rem);
+  line-height: 1.45;
+  color: var(--voice);
+  margin: 0.25em 0;
+  text-wrap: pretty;
+}
+.rig__list li::marker {
+  color: var(--trace);
+}
+
+/* empty completion — read as a dead readout, not a void */
+.rig__void {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+}

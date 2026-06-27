@@ -1,0 +1,141 @@
+.apage {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 2.5rem) 1.25rem 4rem;
+}
+
+/* top nav: wordmark back to the rig + section marker */
+.apage__nav {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding-bottom: 0.9rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+}
+.apage__back {
+  color: var(--ink-bright);
+  text-decoration: none;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+}
+.apage__back:hover {
+  color: var(--trace);
+}
+.apage__sec {
+  margin-left: auto;
+  color: var(--trace);
+  border: 1px solid var(--line-2);
+  padding: 0.18rem 0.42rem;
+}
+.apage__sec--link {
+  text-decoration: none;
+}
+.apage__sec--link:hover {
+  background: rgba(70, 232, 176, 0.08);
+}
+
+/* shared heading */
+.apage__head {
+  margin-bottom: 1.8rem;
+}
+.apage__date {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.apage__title {
+  margin: 0;
+  font-family: var(--font-voice);
+  font-weight: 500;
+  font-size: clamp(2rem, 5vw, 2.9rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--ink-bright);
+  text-wrap: balance;
+}
+.apage__lede {
+  margin-top: 1rem;
+}
+.apage__lede .md {
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+/* index list of essays */
+.apage__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.apage__item {
+  border-bottom: 1px solid var(--line);
+}
+.apage__item-link {
+  display: grid;
+  gap: 0.3rem;
+  padding: 1.3rem 0.4rem;
+  text-decoration: none;
+  transition: background 0.12s, padding-left 0.12s;
+}
+.apage__item-link:hover {
+  background: rgba(70, 232, 176, 0.04);
+  padding-left: 0.8rem;
+}
+.apage__item-date {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.apage__item-title {
+  font-family: var(--font-voice);
+  font-size: 1.4rem;
+  line-height: 1.2;
+  color: var(--ink-bright);
+}
+.apage__item-link:hover .apage__item-title {
+  color: var(--trace);
+}
+.apage__item-sum {
+  font-family: var(--font-voice);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 54ch;
+}
+
+/* article footer */
+.apage__article {
+  max-width: 40rem;
+}
+.apage__foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+}
+.apage__foot a {
+  color: var(--muted);
+  text-decoration: none;
+}
+.apage__foot a:hover {
+  color: var(--trace);
+}
+.apage__missing {
+  font-family: var(--font-mono);
+  color: var(--faint);
+  letter-spacing: 0.08em;
+}

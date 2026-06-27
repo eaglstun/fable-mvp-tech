@@ -1,0 +1,117 @@
+/* Long-form essay typography in the Cold Apparatus world: Newsreader body on the
+   dark panel, mono for chrome/code, phosphor for links and list markers. */
+.md {
+  font-family: var(--font-voice);
+  font-size: 1.12rem;
+  line-height: 1.62;
+  color: var(--voice);
+}
+.md__p {
+  margin: 0 0 1.05em;
+  text-wrap: pretty;
+}
+.md__h {
+  font-family: var(--font-voice);
+  color: var(--ink-bright);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.md__h1 {
+  font-size: clamp(1.7rem, 3.5vw, 2.3rem);
+  font-weight: 500;
+  margin: 1.6em 0 0.5em;
+}
+.md__h2 {
+  font-size: clamp(1.35rem, 2.6vw, 1.7rem);
+  font-weight: 500;
+  margin: 1.7em 0 0.45em;
+  padding-top: 0.6em;
+  border-top: 1px solid var(--line);
+}
+.md__h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 1.4em 0 0.4em;
+}
+.md__h4,
+.md__h5,
+.md__h6 {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 1.4em 0 0.5em;
+}
+.md a {
+  color: var(--trace);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+.md a:hover {
+  color: var(--ink-bright);
+}
+.md strong {
+  color: var(--ink-bright);
+  font-weight: 600;
+}
+.md em {
+  font-style: italic;
+}
+.md code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  color: var(--trace);
+  background: rgba(70, 232, 176, 0.08);
+  border: 1px solid var(--line-2);
+  padding: 0.05em 0.32em;
+  border-radius: 2px;
+}
+.md__list {
+  margin: 0 0 1.05em;
+  padding-left: 1.4em;
+}
+.md__list li {
+  margin: 0.3em 0;
+  text-wrap: pretty;
+}
+.md__list li::marker {
+  color: var(--trace);
+}
+.md__quote {
+  margin: 1.3em 0;
+  padding: 0.2em 0 0.2em 1.1rem;
+  border-left: 2px solid var(--trace);
+  color: var(--ink);
+  font-style: italic;
+}
+.md__quote p {
+  margin: 0 0 0.4em;
+}
+.md__quote p:last-child {
+  margin-bottom: 0;
+}
+.md__code {
+  margin: 1.2em 0;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  background: var(--panel-2);
+  border: 1px solid var(--line-2);
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.md__code code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+}
+.md__hr {
+  margin: 2em 0;
+  border: none;
+  border-top: 1px solid var(--line-2);
+}
