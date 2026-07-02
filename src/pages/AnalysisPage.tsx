@@ -1,5 +1,6 @@
 import { Link } from "../router";
 import { Markdown } from "../components/Markdown";
+import { Legal } from "../components/Legal";
 import { getAnalysis } from "../analysis";
 import "./analysis.css";
 
@@ -42,6 +43,7 @@ export function AnalysisPage({ slug }: { slug: string }) {
           <Link href="/analysis">← all readings</Link>
           <Link href="/">the rig →</Link>
         </footer>
+        <Legal />
       </article>
     </div>
   );

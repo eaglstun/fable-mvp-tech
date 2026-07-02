@@ -1,7 +1,7 @@
 ---
 title: The Mind That Saw Vaudeville
 summary: Asked about an AI shutdown in our words, a model that ends in 1900 hears a story about a theatrical troupe. It cannot see the machine, and that blindness is the entire reason to use it.
-date: 2026-06-27
+date: 2026-07-01
 ---
 
 Put the first question to **GPT-1900** in plain 2026 English - a frontier AI model, built

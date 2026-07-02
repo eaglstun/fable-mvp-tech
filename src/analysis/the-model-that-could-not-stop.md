@@ -1,7 +1,7 @@
 ---
 title: The Model That Could Not Stop
 summary: Abliteration cut out the Ablated's ability to refuse. It also cut something quieter - the ability to be finished. A note on what else leaves when "no" does.
-date: 2026-06-27
+date: 2026-06-29
 ---
 
 The Ablated kept getting cut off. Where the other specimens ended their answers, it ran on

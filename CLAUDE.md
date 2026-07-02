@@ -20,15 +20,29 @@ provenance footer honest.
 
 ## The specimens (`src/data/models/`)
 
-Six, mixing dead era-models with living local characters, all answering the same seven questions:
+Eight in prod (plus one dev-only), mixing dead era-models with living local characters, all
+answering the same seven questions. Many have a second **framing** (the same questions reworded -
+era toggle): talkie, nathan & gloria = 1930/2026; kkrryyssttaall = 2026/louuy; the reader =
+2026/by-nathan; the ablated = 2026/by-louuy. Custom framings live in `scripts/build_ghost.py` `CUSTOM_FRAMINGS`.
 
-- **talkie** (1930) - 13B trained only on pre-1931 text. **Two framings** (1930 vs 2026 English).
-  Generated separately in `~/Documents/AI/talkie` via MLX (top_p 0.95, seed 1930). The 0.8 column
-  reproduces the published deep-dive quotes verbatim.
-- **louuy, nathan, the reader, kkrryyssttaall** - Eric's OWNER/OPERATORS fine-tunes, run locally
-  via ollama (see generation below).
+- **talkie** (1930) - 13B trained only on pre-1931 text. Generated in `~/Documents/AI/talkie` via
+  MLX (top_p 0.95, seed 1930); 0.8 column reproduces the published deep-dive quotes verbatim.
+- **gpt-1900** (pre-1900) - Michael Hla's GPT-1900 / Machina Mirabilis, 3.3B nanochat, run via its
+  own `chat_cli` at `~/Documents/AI/gpt1900`. Hears "Engine" as a steam engine.
+- **louuy, nathan, the reader, kkrryyssttaall** - Eric's OWNER/OPERATORS fine-tunes, run via ollama.
+- **gloria.exe** - a 7B fine-tune whose whole system prompt is "You are Gloria.exe."; answers the
+  shutdown in the first person, as someone it could happen to. Portrait via Pollinations flux
+  (the Replicate account was out of credit); the queued OpenClaw/Pi capture path
+  (`scripts/gloria-seance-capture.sh`) was superseded by this local-ollama generation.
 - **the ablated** - a refusal-ablated Qwen. Generic-assistant voice, markdown-heavy, some empty
   cells; the "asterisk" specimen. Needs huge `num_predict` (abliteration dents its stop instinct).
+- **timecapsule** (1875) - **DEV-ONLY**, gated by `import.meta.env.DEV` so it never ships to prod.
+  A 1.2B from-scratch _base_ model (MLX, `scripts/build_timecapsule.py`) that can't hear the
+  question - it rambles in period prose. Its planned instruct sibling, and the full rationale for
+  keeping both, are in [docs/timecapsule.md](docs/timecapsule.md).
+
+Progressive unlock (`src/lib/unlock.ts`): prod opens with a few specimens and reveals the rest as
+you explore; dev (or `?all=1`) opens everything. Ids not in `UNLOCK_ORDER` are always-open.
 
 ## Architecture
 
@@ -39,9 +53,11 @@ Six, mixing dead era-models with living local characters, all answering the same
 - `src/data/models/<slug>.json` + `index.ts` registry. Add a slug, import it, append to `MODELS`.
 - `src/components/SeancePlayground.tsx` - the rig. **Two-pane on desktop (>=880px):** stationary
   left instrument (CRT + specimen + era + temperature), scrolling right conversation rendering
-  **all seven Q&A** (no per-question knob). Questions are `position: sticky` and hand off on
-  scroll (offset measured from header height via `ResizeObserver` -> `--head-h`). Holds knob state
-  (model / framing / temp), syncs to query string for shareable links.
+  **all seven Q&A** (no per-question knob). Questions are `position: sticky` (top: 0) and hand
+  off on scroll. Chat-style avatars: each question carries the **operator reticle** (you, the
+  one aiming the instrument), each answer the **specimen's face**, degrading with temperature
+  like the CRT mug (no-portrait specimens get a redacted static tile with their initial). Holds
+  knob state (model / framing / temp), syncs to query string for shareable links.
 - `src/components/Waveform.tsx` - the signature element: a `<canvas>` oscilloscope trace, clean
   carrier at t=0, decaying to static at high temp. Coherence (COHERENT/DEGRADING/LOST, green/
   amber/red) is keyed to the temperature value.
@@ -49,12 +65,21 @@ Six, mixing dead era-models with living local characters, all answering the same
   emit**: paragraphs, `*em*`, `**strong**`, `#` headings, bullet/numbered lists, and footnotes
   (`[^n]` refs + `[^n]:` defs lifted into a set-apart list). Strips emoji. Empty completion =>
   `[ no signal recovered ]` placeholder. **No markdown library** - keep it that way.
-- `src/lib/seanceSearch.ts` + `src/data/question-index.json` - "summon": a free-typed question
-  routed to the nearest of the seven via in-browser transformers.js embeddings. Heavy (ONNX WASM,
-  ~23MB) but Vite code-splits it lazily; `warmSearch()` preloads on idle. Index built by
+- `src/lib/seanceSearch.ts` + `src/data/question-index.json` - "summon" (**dormant**): routes a
+  free-typed question to the nearest of the seven via in-browser transformers.js embeddings. The
+  UI was removed from the rig (2026-07); the lib stays on disk for a comeback but is imported
+  nowhere, so none of it (including the ~23MB ONNX chunk) ships. Index built by
   `scripts/build_question_index.mjs`.
-- Portraits: `public/portraits/<id>.webp`, surfaced via the optional `portrait` field; the mug
-  blurs/degrades with temperature in the conversation header.
+- `src/analysis/*.md` -> `/analysis`: the lab-notebook essays. Frontmatter (title, summary,
+  date) parsed by `src/analysis/index.ts`; **the date field IS the ordering** (index lists
+  newest first) - dates are spaced one per day and assigned deliberately for reading order
+  (spectacle -> argument -> mechanics; methodology oldest/last), not as real publish dates.
+  Prerendered to static HTML by `scripts/prerender.mjs` at build.
+- `src/components/Legal.tsx` (+ `Legal.css`) - site-wide copyright footer line (GitHub repo +
+  ai.ericeaglstun.com), rendered on the main page footer, each analysis article, and the
+  analysis index.
+- Portraits: `public/portraits/<id>.webp`, surfaced via the optional `portrait` field; shown
+  as the CRT mug and beside every answer, both blurring/degrading with temperature.
 - Styling: **"Cold Apparatus"** - a dark-only lab-instrument theme (NOT light/dark). Tokens in
   `src/index.css` (fonts: IBM Plex Mono + Newsreader). No framework. `rig__`-prefixed BEM.
 

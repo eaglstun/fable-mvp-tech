@@ -5,7 +5,7 @@ date: 2026-06-27
 ---
 
 The rig is an instrument, and instruments produce readings. These are the readings:
-short essays on what happens when you put the same seven questions to seven different
+short essays on what happens when you put the same seven questions to eight different
 machines and turn the heat up until they come apart.
 
 Some of it is method - how the answers are made, why nothing runs in your browser,

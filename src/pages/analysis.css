@@ -134,6 +134,12 @@
 .apage__foot a:hover {
   color: var(--trace);
 }
+/* index-page end plate: just the legal line under a divider */
+.apage__end {
+  margin-top: 3rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--line);
+}
 .apage__missing {
   font-family: var(--font-mono);
   color: var(--faint);

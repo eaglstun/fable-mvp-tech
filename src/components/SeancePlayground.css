@@ -365,97 +365,11 @@
   font-size: 0.68rem;
 }
 
-/* ============================ summon ============================ */
-.rig__summon {
-  padding: 1.1rem 1.4rem 1.2rem;
-  border-bottom: 1px solid var(--line);
-  background: var(--panel-2);
-}
-.rig__summon-label {
-  display: block;
-  margin-bottom: 0.55rem;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.rig__summon-row {
-  display: flex;
-  gap: 0.5rem;
-}
-.rig__summon-input {
-  flex: 1 1 auto;
-  min-width: 0;
-  padding: 0.55rem 0.7rem;
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  color: var(--ink-bright);
-  background: var(--panel);
-  border: 1px solid var(--line-2);
-  border-radius: 2px;
-}
-.rig__summon-input::placeholder {
-  color: var(--faint);
-}
-.rig__summon-input:focus-visible {
-  outline: none;
-  border-color: var(--trace);
-}
-.rig__summon-btn {
-  flex: none;
-  padding: 0.55rem 1rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--panel);
-  background: var(--trace);
-  border: 1px solid var(--trace);
-  border-radius: 2px;
-  cursor: pointer;
-}
-.rig__summon-btn:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-.rig__summon-msg {
-  margin: 0.7rem 0 0;
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  line-height: 1.5;
-}
-.rig__summon-msg.is-heard {
-  color: var(--ok);
-}
-.rig__summon-msg.is-lost {
-  color: var(--warn);
-}
-.rig__summon-msg em {
-  color: var(--ink-bright);
-  font-style: italic;
-}
-
 .rig__exchanges {
   margin: 0;
   padding: 0;
   list-style: none;
   counter-reset: none;
-}
-/* the exchange a summoned question routed to, briefly */
-.rig__xchg.is-summoned {
-  animation: rig-summon 2.6s ease-out;
-}
-@keyframes rig-summon {
-  0%,
-  18% {
-    background: color-mix(in srgb, var(--trace) 16%, transparent);
-    box-shadow: inset 3px 0 0 var(--trace);
-  }
-  100% {
-    background: transparent;
-    box-shadow: inset 3px 0 0 transparent;
-  }
 }
 .rig__xchg {
   padding: 1.4rem 1.4rem 1.6rem;
@@ -469,9 +383,10 @@
   top: 0;
   z-index: 2;
   display: flex;
+  align-items: center;
   gap: 0.7rem;
   margin: 0 0 0.9rem;
-  padding: 0.7rem 0 0.75rem;
+  padding: 0.6rem 0 0.65rem;
   font-size: 0.8rem;
   line-height: 1.55;
   color: var(--muted);
@@ -487,11 +402,67 @@
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
+
+/* faces: who's speaking, mounted like tiny instrument bezels */
+.rig__face {
+  position: relative;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  overflow: hidden;
+  border: 1px solid var(--line-2);
+  border-radius: 3px;
+  background: #04110d;
+}
+.rig__face img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* `filter` is set inline from the temperature (chaos), same as the CRT mug */
+  transition: filter 0.18s ease;
+}
+/* the operator (you): a targeting reticle, not a portrait */
+.rig__face--operator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+.rig__face--operator svg {
+  width: 20px;
+  height: 20px;
+}
+/* specimen with no portrait on file: redacted static + its initial */
+.rig__face-glyph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: repeating-linear-gradient(
+    45deg,
+    #04110d 0 4px,
+    rgba(255, 255, 255, 0.04) 4px 8px
+  );
+}
+
+/* answer row: the specimen's face beside its speech bubble */
+.rig__a-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
 /* the answer as a slight speech bubble: faint signal-tinted fill, soft corners,
-   a small tail pointing up at the question it replies to */
+   a small tail pointing left at the specimen's face */
 .rig__a {
   position: relative;
   margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
   max-width: 62ch;
   padding: 0.9rem 1.15rem;
   border: 1px solid var(--line-2);
@@ -502,13 +473,13 @@
 .rig__a::before {
   content: "";
   position: absolute;
-  top: -6px;
-  left: 18px;
+  top: 11px;
+  left: -7px;
   width: 11px;
   height: 11px;
   background: inherit;
-  border-top: 1px solid var(--line-2);
   border-left: 1px solid var(--line-2);
+  border-bottom: 1px solid var(--line-2);
   transform: rotate(45deg);
 }
 .rig__a.is-warn {

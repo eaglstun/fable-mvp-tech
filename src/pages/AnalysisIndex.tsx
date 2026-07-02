@@ -1,5 +1,6 @@
 import { Link } from "../router";
 import { Markdown } from "../components/Markdown";
+import { Legal } from "../components/Legal";
 import { LANDING, ANALYSES } from "../analysis";
 import "./analysis.css";
 
@@ -33,6 +34,10 @@ export function AnalysisIndex() {
           </li>
         ))}
       </ol>
+
+      <footer className="apage__end">
+        <Legal />
+      </footer>
     </div>
   );
 }

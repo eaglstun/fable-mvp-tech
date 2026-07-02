@@ -27,8 +27,8 @@ words, the rig stops being an instrument and becomes a puppet show.
 There are three controls, and each one holds something constant so that the others mean
 something.
 
-- **Specimen** - which model is answering. Six of them: a 1930 model, a refusal-ablated
-  one, and four locally fine-tuned characters.
+- **Specimen** - which model is answering. Eight of them: two dead era-models (one ends
+  in 1930, one before 1900), a refusal-ablated one, and five locally fine-tuned characters.
 - **Era / framing** - which _language_ the same question is asked in. talkie can be asked
   about a "thinking Engine" (1930) or a "large language model" (2026); the Reader can be
   asked plainly or heckled by a podcast host. The substance of the question never changes.
@@ -42,9 +42,10 @@ readings is caused by the one dial you moved.
 
 ## How the answers are made
 
-The answers come from two pipelines. **talkie** is generated in its own model repository
-using Apple's MLX, sweeping temperature across five stops; its 0.8 column reproduces the
-quotes from the original deep-dive verbatim. The living characters are run locally through
+The answers come from a few pipelines. The dead era-models are generated in their own
+repositories - **talkie** with Apple's MLX (its 0.8 column reproduces the quotes from the
+original deep-dive verbatim), **GPT-1900** through its own chat CLI - each sweeping
+temperature across the same five stops. The living characters are run locally through
 ollama, each called by name so its own fine-tuned system prompt and sampler apply - the
 generator overrides only the seed, the temperature, and the length, so a model's own voice
 is never flattened into a house style.

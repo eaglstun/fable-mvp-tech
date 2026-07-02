@@ -9,6 +9,7 @@ import nathan from "./nathan.json";
 import reader from "./reader.json";
 import kkrryyssttaall from "./kkrryyssttaall.json";
 import ablated from "./ablated.json";
+import gloria from "./gloria.json";
 import timecapsule from "./timecapsule.json";
 
 export const MODELS: GhostModel[] = [
@@ -19,6 +20,7 @@ export const MODELS: GhostModel[] = [
   reader as GhostModel,
   kkrryyssttaall as GhostModel,
   ablated as GhostModel,
+  gloria as GhostModel,
   // DEV-ONLY: TimeCapsule (1875 base model, too far gone to answer). `import.meta.env.DEV`
   // is statically false in production, so this entry and its JSON are tree-shaken out of
   // prod builds entirely - it never ships and never shows.

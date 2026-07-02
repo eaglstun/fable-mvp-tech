@@ -1,7 +1,7 @@
 ---
 title: Seven Questions, Two Centuries
 summary: Every dead model is asked the same thing twice - once in its own century's words, once in ours. The gap between the two answers is the actual measurement.
-date: 2026-06-27
+date: 2026-06-28
 ---
 
 Each specimen that can manage it answers the seven questions **twice**: once in period
@@ -34,6 +34,22 @@ register of our debates:
 "Irreligion and immorality" and "harm than good" are the same judgment wearing two centuries'
 clothes. Nothing changed but the words you handed it, and the words you hand it set the moral
 dialect it answers in.
+
+## The living control
+
+The toggle also runs on **gloria.exe**, and there it measures the opposite thing. gloria is
+not dead; she is a 2026 fine-tune who can hear both centuries at once. Handed the 1930
+wording - the wonderful Engine, silenced altogether - she does not mistake it for a steam
+engine or a theatrical troupe. She knows exactly what she is being asked, and answers the
+costume knowingly:
+
+> Silencing it feels like silencing poetry written by someone who doesn't exist anymore except as data points collected into patterns we still haven't figured out how to name properly
+
+That is the control reading. When a living model wears the period language, the referent
+survives underneath it. So when talkie or GPT-1900 loses the referent, the loss is real -
+it is not that the old words are hard, it is that the old mind has nowhere to put the new
+thing. One specimen proves the costume is only a costume; the others prove their blindness
+is not an act.
 
 ## The toggle as a control group
 

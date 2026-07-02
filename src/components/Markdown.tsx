@@ -9,7 +9,7 @@ import "./Markdown.css";
  * (The séance answers use the separate, lighter `Prose` renderer.)
  */
 
-const INLINE = /(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|\*[^*\n]+\*|`[^`]+`)/g;
+const INLINE = /(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|\*[^*\n]+\*|_[^_\n]+_|`[^`]+`)/g;
 const LINK = /^\[([^\]]+)\]\(([^)]+)\)$/;
 
 type Block =
@@ -37,6 +37,7 @@ function inline(text: string): ReactNode[] {
       }
       if (tok.startsWith("**") && tok.endsWith("**")) return <strong key={i}>{tok.slice(2, -2)}</strong>;
       if (tok.startsWith("*") && tok.endsWith("*")) return <em key={i}>{tok.slice(1, -1)}</em>;
+      if (tok.startsWith("_") && tok.endsWith("_")) return <em key={i}>{tok.slice(1, -1)}</em>;
       if (tok.startsWith("`") && tok.endsWith("`")) return <code key={i}>{tok.slice(1, -1)}</code>;
       return <Fragment key={i}>{tok}</Fragment>;
     });

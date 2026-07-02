@@ -1,5 +1,6 @@
 import { MODELS } from "./data/models";
 import { SeancePlayground } from "./components/SeancePlayground";
+import { Legal } from "./components/Legal";
 import { Link } from "./router";
 import "./App.css";
 
@@ -43,6 +44,7 @@ function App() {
           &amp; sampler &nbsp;·&nbsp; seed {lead.sampler.seed} throughout &nbsp;·&nbsp; each
           specimen's exact provenance is shown beneath its answers
         </p>
+        <Legal />
       </footer>
     </div>
   );

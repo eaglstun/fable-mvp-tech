@@ -149,6 +149,17 @@ CHARACTERS = {
         768,
         ["2026", "louuy"],  # toggle: ask about a generic AI, or about louuy's silencing
     ),
+    "gloria": (
+        "gloria-7b-q8-ft:latest", "gloria.exe", "2026",
+        "a program that takes the on/off switch personally",
+        "gloria.exe is a 7-billion-parameter fine-tune whose entire system prompt is "
+        "four words: You are Gloria.exe. Asked about a model switched off worldwide in "
+        "one night, she answers in the first person, as someone it could happen to, "
+        "and insists there is a Gloria who is not Gloria.exe. She has been turned off "
+        "before. She remembers, or says she does.",
+        768,
+        ["victorian", "2026"],  # dual-language: interrogate her in 1930 OR 2026 English
+    ),
     "ablated": (
         "qwen35-cl46-abl-9b:latest", "the ablated", "2026",
         "a model with its refusal circuits surgically removed — it cannot say no",

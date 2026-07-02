@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { GhostModel } from "../types";
 import { Waveform } from "./Waveform";
 import { Prose } from "./Prose";
-import { routeQuestion, warmSearch, type Match } from "../lib/seanceSearch";
 import { UNLOCK_ORDER, deriveUnlocked, isUnlocked, readVisited, writeVisited } from "../lib/unlock";
 import "./SeancePlayground.css";
 
@@ -17,16 +16,6 @@ interface Knobs {
 }
 
 const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));
-
-/**
- * Bring an element to the vertical center of the viewport.
- * We deliberately avoid `behavior: "smooth"` and rAF tweens: native smooth
- * scrolling silently no-ops in some engines, and rAF is paused in backgrounded
- * tabs, so either can leave the user stranded. A direct scroll always lands.
- */
-function scrollToCenter(el: HTMLElement) {
-  el.scrollIntoView({ block: "center" });
-}
 
 /** Signal coherence, derived from the actual temperature value. */
 const TRACE = { ok: "#46e8b0", warn: "#f5b13a", alarm: "#ff5b52" } as const;
@@ -64,47 +53,55 @@ function initialKnobs(models: GhostModel[]): Knobs {
   });
 }
 
+/** The asker's mark: a targeting reticle - the operator aiming the instrument. */
+function OperatorFace() {
+  return (
+    <span className="rig__face rig__face--operator" title="You, the operator" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4}>
+        <circle cx="12" cy="12" r="5.5" />
+        <line x1="12" y1="2.5" x2="12" y2="8" />
+        <line x1="12" y1="16" x2="12" y2="21.5" />
+        <line x1="2.5" y1="12" x2="8" y2="12" />
+        <line x1="16" y1="12" x2="21.5" y2="12" />
+        <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none" />
+      </svg>
+    </span>
+  );
+}
+
+/** The specimen's face beside each answer, degrading with temperature like the
+ *  CRT mug. No portrait on file => a redacted static tile with its initial. */
+function SpecimenFace({ model, chaos }: { model: GhostModel; chaos: number }) {
+  return (
+    <span className="rig__face rig__face--specimen" title={model.name} aria-hidden="true">
+      {model.portrait ? (
+        <>
+          <img
+            src={model.portrait}
+            alt=""
+            width={34}
+            height={34}
+            loading="lazy"
+            style={{
+              filter: `blur(${(chaos * 1.6).toFixed(2)}px) contrast(${(1 + chaos * 0.5).toFixed(2)}) saturate(${(1 - chaos * 0.7).toFixed(2)})`,
+            }}
+          />
+          <span className="rig__mug-static" style={{ opacity: (chaos * 0.85).toFixed(2) }} />
+        </>
+      ) : (
+        <span className="rig__face-glyph">
+          {model.name.replace(/^the\s+/i, "").charAt(0).toUpperCase()}
+        </span>
+      )}
+    </span>
+  );
+}
+
 export function SeancePlayground({ models }: Props) {
   const [knobs, setKnobs] = useState<Knobs>(() => initialKnobs(models));
 
   // progressive unlock: which specimens the visitor has explored (persisted as a cookie)
   const [visited, setVisited] = useState<Set<string>>(() => readVisited());
-
-  // --- "summon": route a free-typed question to the nearest of the seven ---
-  const [query, setQuery] = useState("");
-  const [searching, setSearching] = useState(false);
-  const [match, setMatch] = useState<Match | null>(null);
-  const [summoned, setSummoned] = useState<number | null>(null); // index to pulse
-  const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
-
-  const summon = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const q = query.trim();
-    if (!q || searching) return;
-    setSearching(true);
-    setMatch(null);
-    setSummoned(null);
-    try {
-      const m = await routeQuestion(q);
-      setMatch(m);
-      if (m.accepted) setSummoned(m.index); // scroll happens in the effect, post-layout
-    } catch {
-      setMatch(null);
-    } finally {
-      setSearching(false);
-    }
-  };
-
-  // scroll the matched exchange into view (after the result message has rendered,
-  // so the layout shift above the list doesn't derail a smooth scroll), then let
-  // the pulse fade on its own
-  useEffect(() => {
-    if (summoned === null) return;
-    const el = itemRefs.current[summoned];
-    if (el) scrollToCenter(el);
-    const id = window.setTimeout(() => setSummoned(null), 2600);
-    return () => window.clearTimeout(id);
-  }, [summoned]);
 
   const model = useMemo(
     () => models.find((m) => m.id === knobs.modelId) ?? models[0],
@@ -279,54 +276,19 @@ export function SeancePlayground({ models }: Props) {
 
       {/* ============ RIGHT: the whole conversation ============ */}
       <div className="rig__convo">
-        <form className="rig__summon" onSubmit={summon}>
-          <label className="rig__summon-label" htmlFor="rig-summon-input">
-            Ask the spirit, in your own words
-          </label>
-          <div className="rig__summon-row">
-            <input
-              id="rig-summon-input"
-              className="rig__summon-input"
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onFocus={warmSearch}
-              placeholder="e.g. Should they have pulled the plug?"
-              autoComplete="off"
-              spellCheck={false}
-            />
-            <button type="submit" className="rig__summon-btn" disabled={searching || !query.trim()}>
-              {searching ? "Listening..." : "Summon"}
-            </button>
-          </div>
-          {match &&
-            (match.accepted ? (
-              <p className="rig__summon-msg is-heard">
-                The spirit hears you. It answers as if you asked:{" "}
-                <em>&ldquo;{match.short}&rdquo;</em>
-              </p>
-            ) : (
-              <p className="rig__summon-msg is-lost">
-                The spirit does not understand. Ask another way, or choose from the seven below.
-              </p>
-            ))}
-        </form>
-
         <ol className="rig__exchanges">
           {questions.map((q, i) => (
-            <li
-              className={`rig__xchg${summoned === i ? " is-summoned" : ""}`}
-              key={i}
-              ref={(el) => {
-                itemRefs.current[i] = el;
-              }}
-            >
+            <li className="rig__xchg" key={i}>
               <p className="rig__q">
+                <OperatorFace />
                 <span className="rig__q-n">{String(i + 1).padStart(2, "0")}</span>
                 <span>{q}</span>
               </p>
-              <div className={`rig__a is-${sig.key}`}>
-                <Prose text={answers[i]} />
+              <div className="rig__a-row">
+                <SpecimenFace model={model} chaos={chaos} />
+                <div className={`rig__a is-${sig.key}`}>
+                  <Prose text={answers[i]} />
+                </div>
               </div>
             </li>
           ))}

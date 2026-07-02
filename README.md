@@ -5,12 +5,22 @@ present-day AI shutdown and lose signal as the heat climbs. Every answer is **pr
 verbatim model output** - nothing runs in the browser at answer time. The app just swaps text
 per knob combination. Live at **https://fable-mvp.gg**.
 
-Six specimens so far, all answering the same seven questions:
+Eight specimens in prod, all answering the same seven questions:
 
 - **talkie** (1930) - a 13B model trained on nothing written after 1930. Asks in 1930 _or_ 2026
   English (the era toggle).
-- **louuy, nathan, the reader, kkrryyssttaall** - locally fine-tuned OWNER/OPERATORS characters.
+- **gpt-1900** (pre-1900) - Michael Hla's GPT-1900 / Machina Mirabilis, a 3.3B nanochat. Hears
+  "Engine" and pictures a steam engine.
+- **LOUUY, Nathan, The Reader, kkrryyssttaall** - locally fine-tuned OWNER/OPERATORS characters.
+- **gloria.exe** - a 7B fine-tune that answers the shutdown questions in the first person, as
+  someone it could happen to.
 - **the ablated** - a refusal-ablated model (the uncensored baseline).
+
+The era toggle isn't talkie's alone: any specimen with multiple framings gets it (nathan and
+gloria also answer in 1930 words; kkrryyssttaall, the reader, and the ablated carry custom
+second framings).
+The roster unlocks progressively as you explore (`src/lib/unlock.ts`); dev builds or `?all=1`
+open everything, including a dev-only 1875 base model that never ships to prod.
 
 ## Stack
 
@@ -18,14 +28,20 @@ Vite 8 + React 19 + TypeScript, static SPA, no backend. Yarn 4 (PnP).
 
 ```bash
 yarn dev      # local dev server
-yarn build    # tsc -b && vite build -> dist/
+yarn build    # tsc -b && vite build && prerender -> dist/
 yarn lint     # oxlint
 yarn preview  # serve the production build
 ```
 
 The conversation renders as light Markdown (`src/components/Prose.tsx`) - emphasis, headings,
-lists, and footnotes - with no Markdown dependency. The "summon" box routes a free-typed
-question to the nearest of the seven via in-browser embeddings (`src/lib/seanceSearch.ts`).
+lists, and footnotes - with no Markdown dependency. Each exchange carries avatars: an operator
+reticle on the question, the specimen's portrait on the answer, both mounted in the instrument
+style and the portrait degrading as the temperature climbs. (A "summon" free-question box built
+on in-browser embeddings, `src/lib/seanceSearch.ts`, is currently unwired and doesn't ship.)
+
+`/analysis` is the lab notebook: short essays on method and findings, written as Markdown in
+`src/analysis/` and prerendered to static HTML (with per-page OG tags) by `scripts/prerender.mjs`
+at build time.
 
 ## Adding a specimen
 

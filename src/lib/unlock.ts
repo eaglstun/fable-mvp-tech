@@ -18,6 +18,7 @@ export const UNLOCK_ORDER = [
   "louuy",
   "nathan",
   "kkrryyssttaall",
+  "gloria",
   "reader",
 ] as const;
 const STARTERS = 3;
