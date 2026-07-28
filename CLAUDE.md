@@ -4,7 +4,7 @@ Guidance for Claude Code working in this repo.
 
 ## What this is
 
-`fable-mvp` - a Vite + React 19 + TypeScript single-page app, **live at https://fable-mvp.gg**.
+`fable-mvp` - a Vite + React 19 + TypeScript single-page app, **live at https://fable-mvp.tech**.
 It's the "séance you can run": a signal-analysis rig where you interrogate language models about
 the Fable AI-shutdown incident. Pick a specimen, turn the temperature dial, and (for multi-framing
 specimens) toggle which era's language you ask in; read its verbatim answers to the same seven
@@ -107,7 +107,7 @@ sweep for each character in its `CHARACTERS` map via the local ollama HTTP API, 
 
 ## Deploy (it's live)
 
-`yarn build` then `rsync -avz --delete dist/ eric@68.183.63.41:/var/www/fable-mvp.gg/`. Hosted on
+`yarn build` then `rsync -avz --delete dist/ eric@68.183.63.41:/var/www/fable-mvp.tech/`. Hosted on
 the DigitalOcean "pinecone" droplet, static nginx SPA (`try_files ... /index.html`), own certbot
 cert. Privileged droplet steps need sudo (no passwordless) - run via the `! ssh -t eric@...`
 prefix so the password prompt reaches the user.

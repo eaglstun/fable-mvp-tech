@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { createServer } from "vite";
 
-const ORIGIN = "https://fable-mvp.gg";
+const ORIGIN = "https://fable-mvp.tech";
 const root = resolve(import.meta.dirname, "..");
 const DIST = join(root, "dist");
 const template = readFileSync(join(DIST, "index.html"), "utf8");

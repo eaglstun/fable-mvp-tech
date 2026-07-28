@@ -18,7 +18,7 @@ export interface PrerenderedPage {
   description: string;
 }
 
-const SITE = "FABLE-MVP.gg";
+const SITE = "FABLE-MVP.tech";
 
 export function pages(): PrerenderedPage[] {
   const out: PrerenderedPage[] = [

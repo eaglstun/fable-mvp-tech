@@ -3,7 +3,7 @@
 A single-page interactive: pick a language model, turn the temperature dial, watch it judge a
 present-day AI shutdown and lose signal as the heat climbs. Every answer is **pre-generated,
 verbatim model output** - nothing runs in the browser at answer time. The app just swaps text
-per knob combination. Live at **https://fable-mvp.gg**.
+per knob combination. Live at **https://fable-mvp.tech**.
 
 Eight specimens in prod, all answering the same seven questions:
 
@@ -74,7 +74,7 @@ footer states the provenance. If you regenerate, regenerate - don't edit.
 
 ```bash
 yarn build
-rsync -avz --delete dist/ eric@68.183.63.41:/var/www/fable-mvp.gg/
+rsync -avz --delete dist/ eric@68.183.63.41:/var/www/fable-mvp.tech/
 ```
 
 Static nginx SPA on the DigitalOcean droplet, own certbot cert.

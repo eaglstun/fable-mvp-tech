@@ -9,7 +9,7 @@ export function AnalysisIndex() {
     <div className="apage">
       <nav className="apage__nav">
         <Link href="/" className="apage__back">
-          FABLE-MVP.gg
+          FABLE-MVP.tech
         </Link>
         <span className="apage__sec">ANALYSIS</span>
       </nav>

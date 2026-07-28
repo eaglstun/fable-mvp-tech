@@ -24,7 +24,7 @@ export function AnalysisPage({ slug }: { slug: string }) {
     <div className="apage">
       <nav className="apage__nav">
         <Link href="/" className="apage__back">
-          FABLE-MVP.gg
+          FABLE-MVP.tech
         </Link>
         <Link href="/analysis" className="apage__sec apage__sec--link">
           ANALYSIS

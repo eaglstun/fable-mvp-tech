@@ -12,7 +12,7 @@ function App() {
     <div className="page">
       <header className="page__head">
         <div className="page__plate">
-          <span className="page__wordmark">FABLE-MVP.gg</span>
+          <span className="page__wordmark">FABLE-MVP.tech</span>
           <span className="page__sys">SIGNAL ANALYSIS</span>
           <Link href="/analysis" className="page__nav">
             Analysis →
