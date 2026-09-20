@@ -24,9 +24,11 @@ function App() {
         </div>
         <h1 className="page__title">A post-mortem, conducted on the dead.</h1>
         <p className="page__lede">
-          A frontier model named Fable was switched off worldwide overnight, by government order.
-          We put the seven questions to {lead.name} — {lead.tagline} — and recorded what came back.
-          Turn the dials. Watch a mind that thinks it's {lead.era} reason clearly, then lose signal.
+          The frontier model Fable went live on June 9, 2026. Three days later a government order
+          switched it off worldwide, overnight. It stayed dark for nineteen days: the export
+          controls came off June 30, and access was restored July 1. We put the seven questions to{" "}
+          {lead.name} - {lead.tagline} - and recorded what came back. Turn the dials. Watch a mind
+          that thinks it's {lead.era} reason clearly, then lose signal.
         </p>
       </header>
 

@@ -26,3 +26,12 @@ dist-ssr
 *.sln
 *.sw?
 *.pyc
+# Brand faces cached by scripts/build_og_image.py (fetched from google/fonts)
+scripts/.fonts/
+
+# ~/.gitignore_global ignores any dir named "public" (a Hugo build-output rule).
+# Here public/ is SOURCE - portraits, favicon, og.png - so re-include it.
+!public/
+!public/**
+public/**/.DS_Store
+deploy.sh

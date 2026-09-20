@@ -83,7 +83,9 @@
   gap: 0.3rem;
   padding: 1.3rem 0.4rem;
   text-decoration: none;
-  transition: background 0.12s, padding-left 0.12s;
+  transition:
+    background 0.12s,
+    padding-left 0.12s;
 }
 .apage__item-link:hover {
   background: rgba(70, 232, 176, 0.04);
@@ -114,7 +116,7 @@
 
 /* article footer */
 .apage__article {
-  max-width: 40rem;
+  max-width: 60rem;
 }
 .apage__foot {
   display: flex;

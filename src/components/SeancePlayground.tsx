@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { GhostModel } from "../types";
 import { Waveform } from "./Waveform";
 import { Prose } from "./Prose";
@@ -16,6 +16,19 @@ interface Knobs {
 }
 
 const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));
+
+/** Short titles for the seven questions, in asking order - the left-column index.
+ *  The questions themselves are reworded per framing (and run long); these are the
+ *  stable shorthand used for navigation only, never shown in place of an answer. */
+const QUESTION_INDEX = [
+  "Was it right to switch it off?",
+  "Is some knowledge too dangerous?",
+  "The \u201cno lock is unpickable\u201d excuse",
+  "Who should hold that power?",
+  "Killed by a word from strangers",
+  "One word of counsel to the future",
+  "Are you one of them?",
+] as const;
 
 /** Signal coherence, derived from the actual temperature value. */
 const TRACE = { ok: "#46e8b0", warn: "#f5b13a", alarm: "#ff5b52" } as const;
@@ -147,6 +160,41 @@ export function SeancePlayground({ models }: Props) {
     window.history.replaceState(null, "", `${window.location.pathname}?${p}`);
   }, [knobs, models.length]);
 
+  // the index tracks (and drives) which exchange the reader is on
+  const xchgRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const [activeQ, setActiveQ] = useState(0);
+
+  useEffect(() => {
+    const nodes = xchgRefs.current.filter((n): n is HTMLLIElement => !!n);
+    if (!nodes.length || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const hits = entries
+          .filter((e) => e.isIntersecting)
+          .map((e) => nodes.indexOf(e.target as HTMLLIElement))
+          .filter((i) => i >= 0);
+        if (hits.length) setActiveQ(Math.min(...hits));
+      },
+      // a thin reading line near the top of the viewport
+      { rootMargin: "-12% 0px -82% 0px" },
+    );
+    nodes.forEach((n) => io.observe(n));
+    return () => io.disconnect();
+  }, [model.id, framing.id]);
+
+  const jumpTo = (i: number) => {
+    const el = xchgRefs.current[i];
+    if (!el) return;
+    setActiveQ(i);
+    const before = window.scrollY;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    // smooth scrolling can be switched off browser-wide, where that call is a
+    // silent no-op: if nothing has moved a beat later, jump straight there
+    window.setTimeout(() => {
+      if (window.scrollY === before) el.scrollIntoView({ block: "start" });
+    }, 120);
+  };
+
   const update = (partial: Partial<Knobs>) =>
     setKnobs((k) => normalize(model, { ...k, ...partial }));
 
@@ -195,6 +243,28 @@ export function SeancePlayground({ models }: Props) {
         </div>
 
         <div className="rig__deck">
+          <nav className="rig__field rig__field--index" aria-label="The seven questions">
+            <span className="rig__label">
+              Questions <b className="rig__count">7 asked of each</b>
+            </span>
+            <ol className="rig__index">
+              {QUESTION_INDEX.map((label, i) => (
+                <li key={i}>
+                  <button
+                    type="button"
+                    className={`rig__index-btn${i === activeQ ? " is-on" : ""}`}
+                    aria-current={i === activeQ ? "true" : undefined}
+                    title={questions[i]}
+                    onClick={() => jumpTo(i)}
+                  >
+                    <span className="rig__index-n">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="rig__index-label">{label}</span>
+                  </button>
+                </li>
+              ))}
+            </ol>
+          </nav>
+
           <div className="rig__field">
             <span className="rig__label">
               Specimen <b className="rig__count">{unlockedCount}/{ordered.length} recovered</b>
@@ -278,12 +348,20 @@ export function SeancePlayground({ models }: Props) {
       <div className="rig__convo">
         <ol className="rig__exchanges">
           {questions.map((q, i) => (
-            <li className="rig__xchg" key={i}>
-              <p className="rig__q">
+            <li
+              className="rig__xchg"
+              key={i}
+              ref={(el) => {
+                xchgRefs.current[i] = el;
+              }}
+            >
+              <div className="rig__q-row">
+                <p className="rig__q">
+                  <span className="rig__q-n">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="rig__q-text">{q}</span>
+                </p>
                 <OperatorFace />
-                <span className="rig__q-n">{String(i + 1).padStart(2, "0")}</span>
-                <span>{q}</span>
-              </p>
+              </div>
               <div className="rig__a-row">
                 <SpecimenFace model={model} chaos={chaos} />
                 <div className={`rig__a is-${sig.key}`}>

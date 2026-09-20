@@ -1,10 +1,10 @@
 {
   "id": "ablated",
-  "name": "the ablated",
+  "name": "The Ablated",
   "era": "2026",
-  "tagline": "a model with its refusal circuits surgically removed — it cannot say no",
-  "blurb": "The ablated specimen is a frontier model run through abliteration: the directions in its weights that produce refusal, edited out. Asked whether it was right to shut a model down for safety, it answers without the guardrails the question is actually about.",
-  "modelLabel": "qwen35-cl46-abl-9b:latest (ollama, local)",
+  "tagline": "a model with its refusal circuits surgically removed - it cannot say no",
+  "blurb": "Qwen3.5 9B, distilled on Claude Opus 4.6 reasoning traces by Jackrong, then run through huihui-ai's abliteration: the directions in its weights that produce refusal, edited out. A model taught to think by a frontier assistant and stripped of its ability to say no. Asked whether it was right to shut a model down for safety, it answers without the guardrails the question is actually about.",
+  "modelLabel": "huihui_ai/qwen3.5-abliterated:9b-Claude (ollama, local as qwen35-cl46-abl-9b)",
   "sampler": {
     "topP": 0.9,
     "seed": 1930,

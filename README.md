@@ -11,13 +11,16 @@ Eight specimens in prod, all answering the same seven questions:
   English (the era toggle).
 - **gpt-1900** (pre-1900) - Michael Hla's GPT-1900 / Machina Mirabilis, a 3.3B nanochat. Hears
   "Engine" and pictures a steam engine.
-- **LOUUY, Nathan, The Reader, kkrryyssttaall** - locally fine-tuned OWNER/OPERATORS characters.
+- **[LOUUY](https://huggingface.co/postpostmodern/louuy-7b-q4-ft-gguf),
+  [Nathan](https://huggingface.co/postpostmodern/nathan-7b-q8-ft-gguf), The Reader,
+  Kkrryyssttaall** - locally fine-tuned OWNER/OPERATORS characters. LOUUY and Nathan are
+  published as GGUF fine-tunes on Hugging Face.
 - **gloria.exe** - a 7B fine-tune that answers the shutdown questions in the first person, as
   someone it could happen to.
-- **the ablated** - a refusal-ablated model (the uncensored baseline).
+- **The Ablated** - a refusal-ablated model (the uncensored baseline).
 
-The era toggle isn't talkie's alone: any specimen with multiple framings gets it (nathan and
-gloria also answer in 1930 words; kkrryyssttaall, the reader, and the ablated carry custom
+The era toggle isn't talkie's alone: any specimen with multiple framings gets it (Nathan and
+Gloria also answer in 1930 words; Kkrryyssttaall, The Reader, and The Ablated carry custom
 second framings).
 The roster unlocks progressively as you explore (`src/lib/unlock.ts`); dev builds or `?all=1`
 open everything, including a dev-only 1875 base model that never ships to prod.
@@ -69,12 +72,3 @@ works with no component changes. One framing = no era toggle; multiple = the tog
 The whole point is that the answers are real. Never paraphrase, never hand-write a model
 "answer." Every string in `answers` is verbatim output at the stated seed/sampler, and the
 footer states the provenance. If you regenerate, regenerate - don't edit.
-
-## Deploy
-
-```bash
-yarn build
-rsync -avz --delete dist/ eric@68.183.63.41:/var/www/fable-mvp.tech/
-```
-
-Static nginx SPA on the DigitalOcean droplet, own certbot cert.

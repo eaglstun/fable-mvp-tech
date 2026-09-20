@@ -1,0 +1,7 @@
+# fable-mvp.tech - security contact (RFC 9116)
+# Found a crack in the seance? Tell me before you tell the internet.
+Contact: mailto:security@ericeaglstun.com
+Expires: 2027-06-07T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://fable-mvp.tech/.well-known/security.txt
+# No bug bounty - just my gratitude, and the dead will remember you.

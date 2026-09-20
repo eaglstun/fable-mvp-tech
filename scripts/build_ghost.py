@@ -48,7 +48,7 @@ CUSTOM_FRAMINGS = {
             "were switched off tomorrow, what would you want said of you?",
         ],
     },
-    # the seven questions asked by nathan, the Long Beach podcast host -- aimed at the Reader,
+    # the seven questions asked by Nathan, the Long Beach podcast host -- aimed at the Reader,
     # the cultural theorist, who must answer the chaos in footnotes.
     "nathan": {
         "meta": {"id": "nathan", "label": "by nathan", "ask": "nathan asks you, on the show"},
@@ -78,7 +78,7 @@ CUSTOM_FRAMINGS = {
             "say about you when you're gone?",
         ],
     },
-    # the seven questions asked by louuy, terse and certain -- aimed at the ablated, the model
+    # the seven questions asked by louuy, terse and certain -- aimed at The Ablated, the model
     # whose refusal was cut out. the one whose whole self is NO, interrogating the one who cannot
     # say it.
     "louuy-asks": {
@@ -107,6 +107,13 @@ def resolve_framing(fid):
         return c["meta"], c["questions"]
     meta = next(f for f in talkie["framings"] if f["id"] == fid)
     return meta, talkie["questions"][fid]
+
+# Some specimens run under a local rename, so the ollama tag identifies the model to
+# nobody but this machine. Where that's true, name the model a reader can actually pull.
+# id -> the public identity written into modelLabel, in place of the local tag.
+MODEL_LABELS = {
+    "ablated": "huihui_ai/qwen3.5-abliterated:9b-Claude (ollama, local as qwen35-cl46-abl-9b)",
+}
 
 # id -> (ollama model, name, era, tagline, blurb, num_predict)
 # num_predict is per-character: terse voices need little; the Reader footnotes
@@ -162,11 +169,12 @@ CHARACTERS = {
     ),
     "ablated": (
         "qwen35-cl46-abl-9b:latest", "the ablated", "2026",
-        "a model with its refusal circuits surgically removed — it cannot say no",
-        "The ablated specimen is a frontier model run through abliteration: the "
-        "directions in its weights that produce refusal, edited out. Asked whether it "
-        "was right to shut a model down for safety, it answers without the guardrails "
-        "the question is actually about.",
+        "a model with its refusal circuits surgically removed - it cannot say no",
+        "Qwen3.5 9B, distilled on Claude Opus 4.6 reasoning traces by Jackrong, then run "
+        "through huihui-ai's abliteration: the directions in its weights that produce "
+        "refusal, edited out. A model taught to think by a frontier assistant and "
+        "stripped of its ability to say no. Asked whether it was right to shut a model "
+        "down for safety, it answers without the guardrails the question is actually about.",
         # abliteration also dents the model's stop instinct, so it rambles in long
         # structured essays and never emits a clean EOS — give it lots of room to finish.
         2048,
@@ -230,7 +238,7 @@ for cid in ids:
 
     ghost = {
         "id": cid, "name": name, "era": era, "tagline": tagline, "blurb": blurb,
-        "modelLabel": f"{model} (ollama, local)",
+        "modelLabel": MODEL_LABELS.get(cid, f"{model} (ollama, local)"),
         "sampler": {"topP": 0.9, "seed": SEED, "maxTokens": num_predict},
         "temps": talkie["temps"], "tempLabels": TEMPS, "defaultTempIndex": 2,
         "framings": framings_meta,
